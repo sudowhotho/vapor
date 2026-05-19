@@ -1,0 +1,9 @@
+yt-dlp
+watchdog
+pillow
+moviepy
+numpy
+                
+		
+
+

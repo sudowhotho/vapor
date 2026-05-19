@@ -1,0 +1,16 @@
+# Ignore Python internal cache files (created automatically when running scripts)
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+
+# Ignore local OS junk files
+Thumbs.db
+.DS_Store
+
+# Safety fallback: In case you ever run tests inside this folder
+Meme_Library/
+PS5_Drop_Zone/
+split_clips/
+*_preview.jpg
+links.txt

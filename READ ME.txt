@@ -1,0 +1,121 @@
+
+      >>>>>READ ME<<<<<                                                    >>>>>READ ME<<<<<                                                    >>>>>READ ME<<<<<
+
+
+
+	>>>>>Pre-Process Flow that sets up an environment for content creation
+                       							     			(In the project folder directory on 
+	i.e, >>>downloads youtube videos via URL as well as Playlist URLs                          windows/linux/IDE terminal)
+             >>>separates audio and video while keeping an original file		      >> pip install -r requirements.txt <<
+             >>>3rd script provides clips filtered through silence detection 
+                from the full file, easy to curate large video files(10-20min+)          *installs all dependencies in the requirements.txt file
+                when looking for quotes or memes or speific lines/jokes.
+
+________________________________________________________________________________________________________________________________________________
+
+		Move all 5 scripts to one folder, navigate to that folder in your command line to run, or open the folder in your IDE, and open 
+	the watch_links.py, split_memes.py, or watch_folder.py. the others are utilized within these 3 automtically.
+
+		This Guide assumes you have Python installed already, ffmpeg installation is required (instructions at the bottom)
+	this will not work without ffmpeg or the python dependencies listed in the "requirements.txt" file
+
+________________________________________________________________________________________________________________________________________________
+
+		These three scripts work together as a neat, two-step production line:
+
+	watch_links.py
+	grab_meme.py
+	split_memes.py
+________________________________________________________________________________________________________________________________________________
+
+
+		Step 1: The Automation Phase (Hands-Off)
+
+	You leave watch_links.py running in a command prompt or terminal window.
+
+	You find a funny video or compilation, drop the URL into links.txt on your desktop, and hit save.
+
+	watch_links.py instantly wakes up, clears the text file so it doesn't double-process, and hands the URL to grab_meme.py.
+
+	grab_meme.py downloads the best quality MP4, creates a dedicated folder in your Meme_Library, and spits out your 3 master files:
+
+	_AUDIO_ONLY.mp3
+
+	_VIDEO_ONLY.mp4
+
+	_FULL.mp4
+
+You can do this all day long, adding dozens of videos to your library without stopping.
+
+________________________________________________________________________________________________________________________________________________
+
+		Step 2: The Editing Phase (Manual Run)
+
+	When you are ready to start editing your content in Audacity or your video editor, you manually run split_memes.py.
+
+	split_memes.py wakes up and starts sweeping through your entire Meme_Library folder.
+
+	It completely ignores the _AUDIO_ONLY and _VIDEO_ONLY assets.
+
+	It finds every single _FULL.mp4 file.
+
+	The Protection Check: It checks if a split_clips folder already exists next to that video. If it does, it skips it instantly 
+	so it doesn't waste time reprocessing videos you already chopped up yesterday.
+
+	If it's a brand new video, it runs the audio silence detection and slices that _FULL.mp4 into sequentially numbered video chunks 
+	inside a new split_clips folder.
+
+________________________________________________________________________________________________________________________________________________
+
+		A Small Adjustment for split_memes.py
+
+	There is one tiny quirk in the code of the split_memes.py. When it names the individual chunks, it uses the name 
+	of the subfolder, but it leaves _FULL out of the chunk names.
+
+	However, when it uses FFmpeg to cut the files, it passes the command strings enclosed in double quotes. Because Windows paths 
+	can sometimes be finicky with backslashes in Python string variables, it's safer to ensure FFmpeg parses the paths seamlessly.
+
+________________________________________________________________________________________________________________________________________________
+
+	watch_folder.py
+	make_storyboard.py
+
+		How This Current Setup Works (Automatic One-Step)
+
+	You start watch_folder.py manually in your terminal. It sits there running and live-monitoring your PS5_Drop_Zone folder.
+
+	You drop a video clip into that folder.
+
+	watch_folder.py detects the new file, triggers its defensive loop to wait until the file is 100% finished copying, and then automatically 
+	imports and calls create_video_storyboard() directly from your other script.
+
+	The preview screenshot strip (_preview.jpg) is generated instantly in the background without you ever needing to touch make_storyboard.py.
+
+This allows you to preview the clips to see where the action/interesting moments may be in the .jpg file with timestamps, so you dont need to load 
+the editing softwareof your choice, until you finally have to. (mainly for game footage)
+                		
+________________________________________________________________________________________________________________________________________________
+
+		
+
+			🛠️ Prerequisite: FFmpeg Installation
+
+
+	This environment requires FFmpeg installed on your system to process video and audio streams.
+
+		Windows Installation:
+
+	Download the latest "essentials" build from gyan.dev or Bagois.
+
+	Extract the folder to a safe spot (like C:\Users\*\ffmpeg).
+
+	Search your Windows Start Menu for "env" for Edit the system environment variables.
+
+	Click Environment Variables, find the Path variable under User Variables, click Edit, add new,
+	type> C:\Users\*\ffmpeg  replace(*) with your username/accountname
+
+	Open a new terminal and type ffmpeg -version to confirm it works!
+
+	*Editing the Path variable to a user folder prevents administartor priveledges 
+	causing problems to ensure the safety of the user, it tells the computer to look in 
+	the new path if it cant find it in the C:\ where it points to at default.
